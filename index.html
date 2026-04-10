@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Number Guess Game</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- START SCREEN -->
+<!-- 🎮 START SCREEN -->
 <div class="start-screen" id="startScreen">
     <div class="glow"></div>
 
-    <h1>🎮 NUMBER GUESS</h1>
-    <p>Can you beat the system?</p>
+    <h1>🎮 NUMBER GUESS GAME</h1>
+    <p>Try to guess the correct number between 1 to 100</p>
 
     <button onclick="startGame()">▶ PLAY NOW</button>
 </div>
 
-<!-- GAME SCREEN -->
+<!-- 🎯 GAME SCREEN -->
 <div class="card" id="gameScreen" style="display:none;">
 
     <h1>🎯 Guess The Number</h1>
-    <p>Pick number between 1 - 100</p>
+    <p>Enter a number between 1 - 100</p>
 
     <input type="number" id="guess" placeholder="Enter your guess">
 
@@ -30,12 +35,15 @@
         🔄 New Game
     </button>
 
+    <!-- RESULT -->
     <p id="result"></p>
     <p id="attemptInfo"></p>
     <p id="highScore"></p>
 
 </div>
 
+<!-- JS FILE -->
 <script src="script.js"></script>
+
 </body>
 </html>
