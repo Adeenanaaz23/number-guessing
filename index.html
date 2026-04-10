@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Guess Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- START SCREEN -->
+<div class="start-screen" id="startScreen">
+    <div class="glow"></div>
+
+    <h1>🎮 NUMBER GUESS</h1>
+    <p>Can you beat the system?</p>
+
+    <button onclick="startGame()">▶ PLAY NOW</button>
+</div>
+
+<!-- GAME SCREEN -->
+<div class="card" id="gameScreen" style="display:none;">
+
+    <h1>🎯 Guess The Number</h1>
+    <p>Pick number between 1 - 100</p>
+
+    <input type="number" id="guess" placeholder="Enter your guess">
+
+    <button onclick="checkGuess()">Submit Guess</button>
+
+    <button onclick="newGame()" id="newGameBtn" style="display:none;">
+        🔄 New Game
+    </button>
+
+    <p id="result"></p>
+    <p id="attemptInfo"></p>
+    <p id="highScore"></p>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
