@@ -1,79 +1,115 @@
-let number;
-let attempts;
-let highScore = null;
+let number, attempts = 0;
+let min = 1, max = 100;
 
-// ▶ START GAME
-function startGame() {
-    document.getElementById("startScreen").style.display = "none";
-    document.getElementById("gameScreen").style.display = "block";
-    newGame();
+// Screen Switch
+function show(screen) {
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("game").style.display = "none";
+    document.getElementById("scores").style.display = "none";
+    document.getElementById("options").style.display = "none";
+
+    document.getElementById(screen).style.display = "block";
 }
 
-// 🔄 NEW GAME
+// New Game
 function newGame() {
-    number = Math.floor(Math.random() * 100) + 1;
+    number = Math.floor(Math.random() * (max - min + 1)) + min;
     attempts = 0;
 
-    document.getElementById("guess").value = "";
-    document.getElementById("result").innerHTML = "";
-    document.getElementById("attemptInfo").innerHTML = "";
-    document.getElementById("newGameBtn").style.display = "none";
+    localStorage.setItem("savedNumber", number);
+    localStorage.setItem("savedAttempts", attempts);
+
+    show("game");
 }
 
-// 🎮 CHECK GUESS
-function checkGuess() {
-    let guess = Number(document.getElementById("guess").value);
-    let result = document.getElementById("result");
+// Resume Game
+function resumeGame() {
+    let saved = localStorage.getItem("savedNumber");
 
-    if (!guess) {
-        result.innerHTML = "⚠️ Please enter a number!";
+    if (!saved) {
+        alert("No saved game!");
         return;
     }
 
+    number = Number(saved);
+    attempts = Number(localStorage.getItem("savedAttempts"));
+
+    show("game");
+}
+
+// Guess Logic
+function checkGuess() {
+    let guess = Number(document.getElementById("guess").value);
     attempts++;
 
-    let diff = Math.abs(number - guess);
+    localStorage.setItem("savedAttempts", attempts);
 
-    // ✅ CORRECT
-    if (guess === number) {
-
-        let grade = "";
-
-        if (attempts <= 10) grade = "🏆 Excellent!";
-        else if (attempts <= 15) grade = "👍 Good!";
-        else if (attempts <= 20) grade = "🙂 Fair";
-        else grade = "😅 Try Again";
-
-        result.innerHTML = `🎉 Correct! You won in ${attempts} attempts<br>${grade}`;
-
-        // 🏅 HIGH SCORE
-        if (highScore === null || attempts < highScore) {
-            highScore = attempts;
-            document.getElementById("highScore").innerHTML = `🏅 New High Score: ${highScore}`;
-        } else {
-            document.getElementById("highScore").innerHTML = `🏅 High Score: ${highScore}`;
-        }
-
-        document.getElementById("newGameBtn").style.display = "block";
-    }
-
-    // 🔥 TOO CLOSE
-    else if (diff <= 5 && guess > number) {
-        result.innerHTML = "🔥 Too Close! (📉 High)";
-    }
-    else if (diff <= 5 && guess < number) {
-        result.innerHTML = "🔥 Too Close! (📈 Low)";
-    }
-
-    // 📉 NORMAL HIGH
-    else if (guess > number) {
-        result.innerHTML = "📉 Too High!";
-    }
-
-    // 📈 NORMAL LOW
+    if (guess > number) {
+        result.innerText = "Too High";
+    } 
+    else if (guess < number) {
+        result.innerText = "Too Low";
+    } 
     else {
-        result.innerHTML = "📈 Too Low!";
-    }
+        result.innerText = "🎉 Correct! Attempts: " + attempts;
 
-    document.getElementById("attemptInfo").innerHTML = `Attempts: ${attempts}`;
+        saveScore(attempts);
+
+        localStorage.removeItem("savedNumber");
+        localStorage.removeItem("savedAttempts");
+    }
+}
+
+// Save Score
+function saveScore(score) {
+    let scores = JSON.parse(localStorage.getItem("scores")) || [];
+    scores.push(score);
+    scores.sort((a,b)=>a-b);
+    localStorage.setItem("scores", JSON.stringify(scores));
+}
+
+// Show High Scores
+function showHighScores() {
+    let scores = JSON.parse(localStorage.getItem("scores")) || [];
+    let list = document.getElementById("scoreList");
+    list.innerHTML = "";
+
+    scores.forEach(s => {
+        let li = document.createElement("li");
+        li.innerText = "Attempts: " + s;
+        list.appendChild(li);
+    });
+
+    show("scores");
+}
+
+// Options
+function showOptions() {
+    show("options");
+}
+
+// Theme
+function setTheme(mode) {
+    if (mode === "dark") {
+        document.body.classList.add("dark");
+    } else {
+        document.body.classList.remove("dark");
+    }
+}
+
+// Clear Scores
+function clearScores() {
+    localStorage.removeItem("scores");
+    alert("Scores Cleared!");
+}
+
+// Change Range
+function changeRange() {
+    min = Number(prompt("Enter Min Number:", 1));
+    max = Number(prompt("Enter Max Number:", 100));
+}
+
+// Back to Menu
+function goMenu() {
+    show("menu");
 }

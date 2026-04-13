@@ -1,49 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
 
-    <title>Number Guess Game</title>
+    <!-- IMPORTANT FOR MOBILE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- 🎮 START SCREEN -->
-<div class="start-screen" id="startScreen">
-    <div class="glow"></div>
+<!-- MENU -->
+<div id="menu" class="container">
+    <h1>🎮 Number Guessing Game</h1>
 
-    <h1>🎮 NUMBER GUESS GAME</h1>
-    <p>Try to guess the correct number between 1 to 100</p>
-
-    <button onclick="startGame()">▶ PLAY NOW</button>
+    <button onclick="newGame()">New Game</button>
+    <button onclick="resumeGame()">Resume</button>
+    <button onclick="showHighScores()">Highest Score</button>
+    <button onclick="showOptions()">More Options</button>
 </div>
 
-<!-- 🎯 GAME SCREEN -->
-<div class="card" id="gameScreen" style="display:none;">
+<!-- GAME -->
+<div id="game" class="container" style="display:none;">
+    <h2>Guess Number (1-100)</h2>
 
-    <h1>🎯 Guess The Number</h1>
-    <p>Enter a number between 1 - 100</p>
+    <input type="number" id="guess" placeholder="Enter number">
+    <button onclick="checkGuess()">Guess</button>
 
-    <input type="number" id="guess" placeholder="Enter your guess">
-
-    <button onclick="checkGuess()">Submit Guess</button>
-
-    <button onclick="newGame()" id="newGameBtn" style="display:none;">
-        🔄 New Game
-    </button>
-
-    <!-- RESULT -->
     <p id="result"></p>
-    <p id="attemptInfo"></p>
-    <p id="highScore"></p>
 
+    <button onclick="goMenu()">Back</button>
 </div>
 
-<!-- JS FILE -->
-<script src="script.js"></script>
+<!-- HIGH SCORES -->
+<div id="scores" class="container" style="display:none;">
+    <h2>🏆 Highest Scores</h2>
+    <ul id="scoreList"></ul>
+    <button onclick="goMenu()">Back</button>
+</div>
 
+<!-- OPTIONS -->
+<div id="options" class="container" style="display:none;">
+    <h2>⚙️ More Options</h2>
+
+    <button onclick="setTheme('dark')">🌙 Dark Theme</button>
+    <button onclick="setTheme('light')">☀ Light Theme</button>
+    <button onclick="clearScores()">🧹 Clear Scores</button>
+    <button onclick="changeRange()">🔢 Change Range</button>
+
+    <button onclick="goMenu()">Back</button>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
